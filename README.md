@@ -1,3 +1,6 @@
+
+・型定義の際、子コンポーネントで定義したら、親コンポーネントで定義して！とエラーが出る
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
