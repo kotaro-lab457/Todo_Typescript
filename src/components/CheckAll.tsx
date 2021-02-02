@@ -18,7 +18,7 @@ const CheckAll: React.FC<CheckProps> = props => {
                 onChange={handleAllCompleted}
             />
             <span>
-                全て{props.allCompleted}
+                全て{props.allCompleted ? '完了済' : '未完了'}
             </span>
         </label>
     )
