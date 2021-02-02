@@ -1,5 +1,17 @@
 
+------- TypeScript -------
+
+1.React.FC = React functional componentの略で、関数コンポーネントで定義する時に、使う。
+
+・void型
+関数の戻り値として使うことだある
+メソッド名 : （引数名: 型） => 戻り値（void）
+
+
 ・型定義の際、子コンポーネントで定義したら、親コンポーネントで定義して！とエラーが出る
+
+・map配列の時に、keyでidを渡さないと中身を確認することができず、全て同じ要素だと認識する事になる。
+
 
 # Getting Started with Create React App
 

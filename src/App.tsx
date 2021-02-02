@@ -21,6 +21,12 @@ const App: React.FC = () => {
     ])
     createId++
   }
+
+  // filter使用の削除機能(idで区別)
+  const deleteTodo = (id: number) => {
+    setTodo(todo.filter(todo => todo.id !== id))
+  }
+
   return (
     <div className="App">
       <p>Todoリスト</p>
@@ -32,11 +38,12 @@ const App: React.FC = () => {
         <option>未完了</option>
       </select>
       <ul>
-        {todo.map((list: TodoText) => {
+        {todo.map(list => {
           return (
             <li key={list.id}>
               <List
                 list={list}
+                deleteTodo={deleteTodo}
               />
             </li>
           )
