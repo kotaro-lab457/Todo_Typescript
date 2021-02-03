@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import List from './components/List'
 import Form from './components/Form'
 import CheckAll from './components/CheckAll'
+import Filter from './components/Fliter'
 
 // TodoTextはstringとnumberの配列オブジェクト = TodoText[]で配列のオブジェクトが現せる。
 import { TodoText } from './Todo.model'
@@ -10,7 +11,9 @@ let createId = 0;
 // React.FC はReactのfunctionalComponentの略
 const App: React.FC = () => {
   const [todo, setTodo] = useState<TodoText[]>([])
+  const [filter, setFilter] = useState<string>('all')
 
+  // todo作成
   const addTodo = (content: string) => {
     setTodo(todos => [
       ...todos,
@@ -53,7 +56,24 @@ const App: React.FC = () => {
 
   // completedがtrueの場合には、trueのみ削除
   const deleteAllCompleted = () => {
-    setTodo(todo.filter(({completed}) => !completed))
+    setTodo(todo.filter(({ completed }) => !completed))
+  }
+
+  const filterTodo = todo.filter(({ completed }) => {
+    switch (filter) {
+      case 'all':
+        return true
+      case 'completed':
+        return completed
+      case 'uncompleted':
+        return !completed
+      default:
+        return true
+    }
+  })
+
+  const filterTodoCompleted = (filter: string) => {
+    setFilter(filter)
   }
 
   return (
@@ -64,13 +84,12 @@ const App: React.FC = () => {
         allCompleted={todo.every(({ completed }) => completed)}
         allCompletedCheck={allCompletedCheck}
       />
-      <select>
-        <option>全て</option>
-        <option>完了済</option>
-        <option>未完了</option>
-      </select>
+      <Filter
+        filterChange={filterTodoCompleted}
+        filter={filter}
+      />
       <ul>
-        {todo.map(list => {
+        {filterTodo.map(list => {
           return (
             <li key={list.id}>
               <List
