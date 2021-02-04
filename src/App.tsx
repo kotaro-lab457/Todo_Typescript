@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import List from './components/List'
 import Form from './components/Form'
 import CheckAll from './components/CheckAll'
-import Filter from './components/Fliter'
+import Filter from './components/Filter'
+import Editing from './components/Editing'
 
 // TodoTextはstringとnumberの配列オブジェクト = TodoText[]で配列のオブジェクトが現せる。
 import { TodoText } from './Todo.model'
