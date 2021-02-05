@@ -21,7 +21,8 @@ const App: React.FC = () => {
       {
         content,
         id: createId,
-        completed: false
+        completed: false,
+        editing: false
       }
     ])
     createId++
@@ -30,8 +31,11 @@ const App: React.FC = () => {
   // filter使用の削除機能(idで区別)
   const deleteTodo = (id: number) => {
     setTodo(todo.filter(todo => todo.id !== id))
+    console.log(todo)
   }
 
+  // 各々のTODOリスト（id）がcompletedが反転したことを親コンポーネントで管理
+  // 🚨レンダリングされる度に、全てレンダリングされる🚨
   const completedChange = (id: number, completed: boolean) => {
     setTodo(todo.map(todos => {
       // それぞれのID毎にcompletedの値（boolean）を分けるif文
@@ -46,35 +50,68 @@ const App: React.FC = () => {
     }))
   }
 
-  // 
+  // 各々のListコンポーネントの編集機能を作成
+  const editingChange = (id: number, editing: boolean) => {
+    setTodo(todo.map(todos => {
+      if (todos.id === id) {
+        return {
+          ...todos,
+          editing
+        }
+      }
+      return todos
+    }))
+  }
+
+  // content(value)を更新し、Listコンポーネントに反転（editing:false）する
+  const textUpdate = (id: number, content: string) => {
+    setTodo(todo.map(todos => {
+      if (todos.id === id) {
+        return {
+          ...todos,
+          content,
+          editing:false
+        }
+      }
+      return todos
+    }))
+  }
+
+  // 各々のListのチェックボックスを全て反転させる
   const allCompletedCheck = (completed: boolean) => {
     setTodo(todo.map(todos => ({
       ...todos,
       completed
     })))
+    //console.log(todo)
   }
 
 
   // completedがtrueの場合には、trueのみ削除
   const deleteAllCompleted = () => {
     setTodo(todo.filter(({ completed }) => !completed))
+    console.log(todo)
   }
 
+  // switch文でcompleted全体をfilterメソッドで切り替え
+  // return trueで全て残され、falseで取り除かれる
   const filterTodo = todo.filter(({ completed }) => {
     switch (filter) {
       case 'all':
-        return true
+        return true // 全て
       case 'completed':
-        return completed
+        return completed // 完了済
       case 'uncompleted':
-        return !completed
+        return !completed // 未完了
       default:
         return true
     }
   })
 
+  // 切り替え機能（valueで受け渡し）
   const filterTodoCompleted = (filter: string) => {
     setFilter(filter)
+    console.log(filter)
   }
 
   return (
@@ -93,11 +130,23 @@ const App: React.FC = () => {
         {filterTodo.map(list => {
           return (
             <li key={list.id}>
-              <List
-                list={list}
-                deleteTodo={deleteTodo}
-                completedChange={completedChange}
-              />
+              {list.editing ? (
+                <Editing
+                  list={list}
+                  key={list.id}
+                  editingChange={editingChange}
+                  textUpdate={textUpdate}
+                />
+              ) : (
+                  <List
+                    list={list}
+                    deleteTodo={deleteTodo}
+                    completedChange={completedChange}
+                    editingChange={editingChange}
+                    key={list.id}
+                  />
+                )
+              }
             </li>
           )
         })}

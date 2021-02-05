@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
 type AddTodoProps = {
-    addTodo: (content:string) => void
+    addTodo: (content: string) => void
 }
 
 const Form: React.FC<AddTodoProps> = props => {
-    const [value,setValue] = useState('')
+    const [value, setValue] = useState('')
 
-    const handleChangeSubmit = (e : React.FormEvent) => {
+    const handleChangeSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if(value === '')return
+        if (value === '') return
         props.addTodo(value)
         setValue('')
     }
@@ -18,11 +18,12 @@ const Form: React.FC<AddTodoProps> = props => {
         <>
             <label>
                 <form onSubmit={handleChangeSubmit}>
-                <input 
-                type='text' 
-                onChange={e => setValue(e.target.value)} 
-                value={value} />
-                <button>送信</button>
+                    <input
+                        type='text'
+                        onChange={e => setValue(e.target.value)}
+                        value={value}
+                    />
+                    <button>送信</button>
                 </form>
             </label>
         </>
